@@ -1,6 +1,20 @@
 {
     "Objects": [
         {
+            "Type": "nap::BoxMesh",
+            "mID": "BoxMesh",
+            "Size": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "Position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            }
+        },
+        {
             "Type": "nap::Entity",
             "mID": "CameraEntity",
             "Components": [
@@ -111,7 +125,21 @@
         },
         {
             "Type": "nap::ImageFromFile",
-            "mID": "ObjectTexture",
+            "mID": "CrateTexture",
+            "Parameters": {
+                "MinFilter": "LinearMipmapLinear",
+                "MaxFilter": "Linear",
+                "WrapVertical": "ClampToEdge",
+                "WrapHorizontal": "ClampToEdge",
+                "MaxLodLevel": 20
+            },
+            "Usage": "Static",
+            "ImagePath": "textures/crate.jpg",
+            "Compressed": false
+        },
+        {
+            "Type": "nap::ImageFromFile",
+            "mID": "PigTexture",
             "Parameters": {
                 "MinFilter": "LinearMipmapLinear",
                 "MaxFilter": "Linear",
@@ -124,6 +152,34 @@
             "Compressed": false
         },
         {
+            "Type": "nap::ImageFromFile",
+            "mID": "TestTexture",
+            "Parameters": {
+                "MinFilter": "LinearMipmapLinear",
+                "MaxFilter": "Linear",
+                "WrapVertical": "ClampToEdge",
+                "WrapHorizontal": "ClampToEdge",
+                "MaxLodLevel": 20
+            },
+            "Usage": "Static",
+            "ImagePath": "textures/square.jpg",
+            "Compressed": false
+        },
+        {
+            "Type": "nap::ImageFromFile",
+            "mID": "WorldTexture",
+            "Parameters": {
+                "MinFilter": "LinearMipmapLinear",
+                "MaxFilter": "Linear",
+                "WrapVertical": "ClampToEdge",
+                "WrapHorizontal": "ClampToEdge",
+                "MaxLodLevel": 20
+            },
+            "Usage": "Static",
+            "ImagePath": "textures/world.jpg",
+            "Compressed": false
+        },
+        {
             "Type": "nap::Material",
             "mID": "ObjectMaterial",
             "Uniforms": [
@@ -131,7 +187,7 @@
                     "Type": "nap::UniformTexture2D",
                     "mID": "UniformTexture2D_9d9a1ddb",
                     "Name": "inModelTexture",
-                    "Texture": "ObjectTexture"
+                    "Texture": "PigTexture"
                 }
             ],
             "Shader": "ObjectShader",
@@ -144,6 +200,63 @@
             "mID": "PigHeadMesh",
             "Path": "pig_head.mesh",
             "Usage": "Static"
+        },
+        {
+            "Type": "nap::ModelTextureResource",
+            "mID": "BoxTextures",
+            "Mesh": "BoxMesh",
+            "Textures": [
+                "CrateTexture",
+                "TestTexture"
+            ]
+        },
+        {
+            "Type": "nap::ModelTextureResource",
+            "mID": "ModelTextureResource_9a0cbb1f",
+            "Mesh": "BoxMesh",
+            "Textures": []
+        },
+        {
+            "Type": "nap::ModelTextureResource",
+            "mID": "PigTextures",
+            "Mesh": "PigHeadMesh",
+            "Textures": [
+                "PigTexture",
+                "TestTexture"
+            ]
+        },
+        {
+            "Type": "nap::ModelTextureResource",
+            "mID": "PlaneTextures",
+            "Mesh": "PlaneMesh",
+            "Textures": [
+                "CrateTexture",
+                "TestTexture",
+                "WorldTexture"
+            ]
+        },
+        {
+            "Type": "nap::ModelTextureResource",
+            "mID": "SphereTextures",
+            "Mesh": "SphereMesh",
+            "Textures": [
+                "WorldTexture",
+                "TestTexture"
+            ]
+        },
+        {
+            "Type": "nap::PlaneMesh",
+            "mID": "PlaneMesh",
+            "Size": {
+                "x": 1.0,
+                "y": 1.0
+            },
+            "Position": {
+                "x": 0.0,
+                "y": 0.0
+            },
+            "Rows": 1,
+            "Columns": 1
         },
         {
             "Type": "nap::RenderWindow",
@@ -180,6 +293,13 @@
             "mID": "ObjectShader",
             "mVertShader": "shaders/model.vert",
             "mFragShader": "shaders/model.frag"
+        },
+        {
+            "Type": "nap::SphereMesh",
+            "mID": "SphereMesh",
+            "Radius": 1.0,
+            "Rings": 50.0,
+            "Sectors": 50.0
         }
     ]
 }
