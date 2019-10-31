@@ -1,4 +1,5 @@
 #include "myfirstprojectapp.h"
+#include "selectmeshcomponent.h"
 
 // External Includes
 #include <utility/fileutils.h>
@@ -6,6 +7,7 @@
 #include <inputrouter.h>
 #include <renderablemeshcomponent.h>
 #include <perspcameracomponent.h>
+#include <imgui/imgui.h>
 
 RTTI_BEGIN_CLASS_NO_DEFAULT_CONSTRUCTOR(nap::MyFirstProjectApp)
 	RTTI_CONSTRUCTOR(nap::Core&)
@@ -59,6 +61,19 @@ namespace nap
 		// Use a default input router to forward input events (recursively) to all input components in the default scene
 		nap::DefaultInputRouter input_router(true);
 		mInputService->processWindowEvents(*mRenderWindow, input_router, { &mScene->getRootEntity() });
+
+		SelectMeshComponentInstance& select_mesh_comp = mModelEntity->getComponent<SelectMeshComponentInstance>();
+		ImGui::Begin("Controls");
+
+		int current_model_idx = select_mesh_comp.getModelIndex();
+		if (ImGui::SliderInt("Select Model", &current_model_idx, 0, select_mesh_comp.getModelCount() - 1))
+			select_mesh_comp.selectModel(current_model_idx);
+
+		int current_text_idx = select_mesh_comp.getTextureIndex();
+		if (ImGui::SliderInt("Select Texture", &current_text_idx, 0, select_mesh_comp.getTextureCount(current_model_idx) - 1))
+			select_mesh_comp.selectTexture(current_text_idx);
+
+		ImGui::End();
 	}
 	
 	

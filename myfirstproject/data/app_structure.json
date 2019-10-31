@@ -119,6 +119,19 @@
                         "Speed": 0.10000000149011612,
                         "Offset": 0.0
                     }
+                },
+                {
+                    "Type": "nap::SelectMeshComponent",
+                    "mID": "SelectModelComponent",
+                    "Models": [
+                        "PigTextures",
+                        "BoxTextures",
+                        "SphereTextures",
+                        "PlaneTextures"
+                    ],
+                    "ModelIndex": 2,
+                    "TextureIndex": 0,
+                    "RenderableMeshComponent": "./ModelRenderableMeshComponent"
                 }
             ],
             "Children": []
@@ -209,12 +222,6 @@
                 "CrateTexture",
                 "TestTexture"
             ]
-        },
-        {
-            "Type": "nap::ModelTextureResource",
-            "mID": "ModelTextureResource_9a0cbb1f",
-            "Mesh": "BoxMesh",
-            "Textures": []
         },
         {
             "Type": "nap::ModelTextureResource",
