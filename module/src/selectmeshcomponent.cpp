@@ -3,6 +3,7 @@
 // External Includes
 #include <entity.h>
 #include <mathutils.h>
+#include <samplerinstance.h>
 
 // nap::selectmeshcomponent run time class definition 
 RTTI_BEGIN_CLASS(nap::SelectMeshComponent)
@@ -72,8 +73,8 @@ namespace nap
 
 		mCurrentTexture = mModels[mCurrentModelIndex]->mTextures[mCurrentTextureIndex].get();
 		MaterialInstance& material = mRenderableMeshComponent->getMaterialInstance();
-		UniformTexture2D& tex_uniform = material.getOrCreateUniform<UniformTexture2D>("inModelTexture");
-		tex_uniform.setTexture(*mCurrentTexture);
+		Sampler2DInstance* tex_uniform = material.getOrCreateSampler<Sampler2DInstance>("inModelTexture");
+		tex_uniform->setTexture(*mCurrentTexture);
 	}
 
 

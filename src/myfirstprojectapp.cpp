@@ -80,27 +80,40 @@ namespace nap
 	// Called when the window is going to render
 	void MyFirstProjectApp::render()
 	{
-		// Destroy old GL context related resources scheduled for destruction
-		mRenderService->destroyGLContextResources({ mRenderWindow.get() });
+		// Signal the beginning of a new frame, allowing it to be recorded.
+		// The system might wait until all commands that were previously associated with the new frame have been processed on the GPU.
+		// Multiple frames are in flight at the same time, but if the graphics load is heavy the system might wait here to ensure resources are available.
+		mRenderService->beginFrame();
 
-		// Prep main window for drawing
-		mRenderWindow->makeActive();
+		// Begin recording the render commands for the main render window
+		if (mRenderService->beginRecording(*mRenderWindow))
+		{
+			// Begin the render pass
+			mRenderWindow->beginRendering();
 
-		// Clear back-buffer
-		mRenderService->clearRenderTarget(mRenderWindow->getBackbuffer());
+			// Get the component that renders the model to screen
+			std::vector<RenderableComponentInstance*> render_comps;
+			RenderableComponentInstance& render_comp = mModelEntity->getComponent<RenderableComponentInstance>();
+			render_comps.emplace_back(&render_comp);
 
-		std::vector<RenderableComponentInstance*> render_comps;
-		RenderableComponentInstance& render_comp = mModelEntity->getComponent<RenderableComponentInstance>();
-		render_comps.emplace_back(&render_comp);
+			// Get the camera to render with
+			PerspCameraComponentInstance& persp_cam = mCameraEntity->getComponent<PerspCameraComponentInstance>();
+			
+			// Render the model using the camera to the window
+			mRenderService->renderObjects(*mRenderWindow, persp_cam, render_comps);
 
-		PerspCameraComponentInstance& persp_cam = mCameraEntity->getComponent<PerspCameraComponentInstance>();
-		mRenderService->renderObjects(mRenderWindow->getBackbuffer(), persp_cam, render_comps);
+			// Draw the GUI on top of the rest
+			mGuiService->draw();
 
-		// Draw our gui
-		mGuiService->draw();
+			// End the render pass
+			mRenderWindow->endRendering();
 
-		// Swap screen buffers
-		mRenderWindow->swap();
+			// We're done recording
+			mRenderService->endRecording();
+		}
+
+		// Tell the render service we finished rendering into the frame.
+		mRenderService->endFrame();
 	}
 	
 

@@ -3,6 +3,8 @@
         {
             "Type": "nap::BoxMesh",
             "mID": "BoxMesh",
+            "Usage": "Static",
+            "CullMode": "Back",
             "Size": {
                 "x": 1.0,
                 "y": 1.0,
@@ -12,6 +14,14 @@
                 "x": 0.0,
                 "y": 0.0,
                 "z": 0.0
+            },
+            "Color": {
+                "Values": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ]
             }
         },
         {
@@ -89,13 +99,16 @@
                 {
                     "Type": "nap::RenderableMeshComponent",
                     "mID": "ModelRenderableMeshComponent",
+                    "Visible": true,
                     "Mesh": "PigHeadMesh",
                     "MaterialInstance": {
                         "Material": "ObjectMaterial",
                         "Uniforms": [],
+                        "Samplers": [],
                         "BlendMode": "NotSet",
                         "DepthMode": "NotSet"
                     },
+                    "LineWidth": 1.0,
                     "ClipRect": {
                         "Min": {
                             "x": 0.0,
@@ -139,67 +152,47 @@
         {
             "Type": "nap::ImageFromFile",
             "mID": "CrateTexture",
-            "Parameters": {
-                "MinFilter": "LinearMipmapLinear",
-                "MaxFilter": "Linear",
-                "WrapVertical": "ClampToEdge",
-                "WrapHorizontal": "ClampToEdge",
-                "MaxLodLevel": 20
-            },
             "Usage": "Static",
             "ImagePath": "textures/crate.jpg",
-            "Compressed": false
+            "GenerateLods": true
         },
         {
             "Type": "nap::ImageFromFile",
             "mID": "PigTexture",
-            "Parameters": {
-                "MinFilter": "LinearMipmapLinear",
-                "MaxFilter": "Linear",
-                "WrapVertical": "ClampToEdge",
-                "WrapHorizontal": "ClampToEdge",
-                "MaxLodLevel": 20
-            },
             "Usage": "Static",
             "ImagePath": "textures/pig_head.jpg",
-            "Compressed": false
+            "GenerateLods": true
         },
         {
             "Type": "nap::ImageFromFile",
             "mID": "TestTexture",
-            "Parameters": {
-                "MinFilter": "LinearMipmapLinear",
-                "MaxFilter": "Linear",
-                "WrapVertical": "ClampToEdge",
-                "WrapHorizontal": "ClampToEdge",
-                "MaxLodLevel": 20
-            },
             "Usage": "Static",
             "ImagePath": "textures/square.jpg",
-            "Compressed": false
+            "GenerateLods": true
         },
         {
             "Type": "nap::ImageFromFile",
             "mID": "WorldTexture",
-            "Parameters": {
-                "MinFilter": "LinearMipmapLinear",
-                "MaxFilter": "Linear",
-                "WrapVertical": "ClampToEdge",
-                "WrapHorizontal": "ClampToEdge",
-                "MaxLodLevel": 20
-            },
             "Usage": "Static",
             "ImagePath": "textures/world.jpg",
-            "Compressed": false
+            "GenerateLods": true
         },
         {
             "Type": "nap::Material",
             "mID": "ObjectMaterial",
-            "Uniforms": [
+            "Uniforms": [],
+            "Samplers": [
                 {
-                    "Type": "nap::UniformTexture2D",
-                    "mID": "UniformTexture2D_9d9a1ddb",
+                    "Type": "nap::Sampler2D",
+                    "mID": "Sampler2D_007aee1b",
                     "Name": "inModelTexture",
+                    "MinFilter": "Linear",
+                    "MaxFilter": "Linear",
+                    "MipMapMode": "Linear",
+                    "AddressModeVertical": "ClampToEdge",
+                    "AddressModeHorizontal": "ClampToEdge",
+                    "MaxLodLevel": 1000,
+                    "AnisotropicSamples": "Default",
                     "Texture": "PigTexture"
                 }
             ],
@@ -211,8 +204,9 @@
         {
             "Type": "nap::MeshFromFile",
             "mID": "PigHeadMesh",
-            "Path": "pig_head.mesh",
-            "Usage": "Static"
+            "Usage": "Static",
+            "CullMode": "Back",
+            "Path": "pig_head.mesh"
         },
         {
             "Type": "nap::ModelTextureResource",
@@ -254,6 +248,8 @@
         {
             "Type": "nap::PlaneMesh",
             "mID": "PlaneMesh",
+            "Usage": "Static",
+            "CullMode": "None",
             "Size": {
                 "x": 1.0,
                 "y": 1.0
@@ -262,24 +258,36 @@
                 "x": 0.0,
                 "y": 0.0
             },
+            "Color": {
+                "Values": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
             "Rows": 1,
             "Columns": 1
         },
         {
             "Type": "nap::RenderWindow",
             "mID": "Window",
-            "Width": 1280,
-            "Height": 720,
             "Borderless": false,
             "Resizable": true,
+            "Visible": true,
+            "SampleShading": true,
             "Title": "MyFirstProject",
-            "Sync": false,
+            "Width": 1280,
+            "Height": 720,
+            "Mode": "Immediate",
             "ClearColor": {
                 "x": 0.0,
                 "y": 0.0,
                 "z": 0.0,
                 "w": 1.0
-            }
+            },
+            "Samples": "Four",
+            "AdditionalSwapImages": 1
         },
         {
             "Type": "nap::Scene",
@@ -296,17 +304,27 @@
             ]
         },
         {
-            "Type": "nap::Shader",
+            "Type": "nap::ShaderFromFile",
             "mID": "ObjectShader",
-            "mVertShader": "shaders/model.vert",
-            "mFragShader": "shaders/model.frag"
+            "VertShader": "shaders/model.vert",
+            "FragShader": "shaders/model.frag"
         },
         {
             "Type": "nap::SphereMesh",
             "mID": "SphereMesh",
+            "Usage": "Static",
+            "CullMode": "Back",
             "Radius": 1.0,
             "Rings": 50.0,
-            "Sectors": 50.0
+            "Sectors": 50.0,
+            "Color": {
+                "Values": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            }
         }
     ]
 }
